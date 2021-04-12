@@ -1,0 +1,5 @@
+Different ways for creating a downloadable csv file
+1) With Dash
+pip install dash-extensions or detour
+https://stackoverflow.com/questions/61784556/download-csv-file-in-dash/61814287#61814287
+2) creating downloadable link directly
