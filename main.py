@@ -1,28 +1,19 @@
-import os
+# RUN EMPTY SERVER, CONFIGURE THE HEROKU SCHEDULER FOR RUNNING worker.py with command "python worker.py"
 import dash
 import dash_html_components as html
-import pandas as pd
-from dash.dependencies import Output, Input
-from dash_extensions import Download
-from dash_extensions.snippets import send_data_frame
+import threading as Threading
+from worker import start_working
+from datetime import datetime as dt
 
-# run data worker for first time
-import worker
+print("Running timed jobs on the background through a thread")
+t1 = Threading.Thread(target=start_working)
+t1.start()
+print("Timed jobs started on ", dt.now())
 
 # Create app.
 app = dash.Dash(prevent_initial_callbacks=True)
-app.layout = html.Div([html.Button("Download csv", id="btn"), Download(id="download")])
-
-
-@app.callback(Output("download", "data"), [Input("btn", "n_clicks")])
-def generate_csv(n_nlicks):
-    # define path of file
-    file_path_wallet = os.path.join("data_wallet.csv")
-    df = pd.read_csv(file_path_wallet)
-    return send_data_frame(df.to_csv, filename="wallet.csv")
+server = app.server
+app.layout = html.Div("None")
 
 if __name__ == '__main__':
     app.run_server()
-
-
-

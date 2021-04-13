@@ -1,20 +1,19 @@
 # copied from https://github.com/claudiocama/youtube/blob/master/2020-09-12%20-%20Api%20per%20Degiro/degiro.py#L26
 import requests, json
+import os
 
 def get_cashfund():
     # Parte 1
     ## Recupero username e password da un file di configurazione
-    with open('secrets.json', 'r') as configFile:
-        CONFIG = json.load(configFile)
-
     ## Effettuo il login ed ottengo un sessionID
     URL_LOGIN = "https://trader.degiro.nl/login/secure/login"
-    payload = {'username': CONFIG['DEGIRO_USER'],
-                       'password': CONFIG['DEGIRO_PASSWORD'],
+    payload = {'username': os.environ.get('DEGIRO_USER'),
+                       'password': os.environ.get('DEGIRO_PASSWORD'),
                        'isPassCodeReset': False,
                        'isRedirectToMobile': False}
     header = {'content-type': 'application/json'}
     r = requests.post(URL_LOGIN, headers=header, data=json.dumps(payload))
+    print(r)
     sessionID = r.json()["sessionId"]
 
     ## Recupero l'intAccount

@@ -3,21 +3,17 @@ import json
 import os
 import yfinance as yf
 
+# CREATE DEGIRO CLASS METHOD OBJECT
 degiro = degiroapi.DeGiro()
 
+# DEGIRO LOGIN FUNCTION
 def degiro_login():
-    # OPEN CREDENTIAL FILE
-    secrets_file_path = os.path.join("secrets.json")
-    with open(secrets_file_path, "r") as read_file:
-        read_file = read_file.read()
-        data = json.loads(str(read_file))
-
     # LOGIN
-    username = data["DEGIRO_USER"]
-    password = data["DEGIRO_PASSWORD"]
+    username = os.environ.get("DEGIRO_USER")
+    password = os.environ.get("DEGIRO_PASSWORD")
     degiro.login(username, password)
 
-
+# GET PORTFOLIO FUNCTION
 def portfolio():
     # DEGIRO LOGIN
     degiro_login()
@@ -35,6 +31,7 @@ def portfolio():
 
     return portfolio_dict, value_wallet
 
+# TRANSFORM PORTFOLIO INTO A TICKERS DICTIONARY
 def transform_portfolio_into_tickers_dict(portfolio):
     tickers = {}
     for i in portfolio:
@@ -42,6 +39,7 @@ def transform_portfolio_into_tickers_dict(portfolio):
     tickers = list(tickers)
     return tickers
 
+# GET CURRENT PRICE OF TICKER
 def get_current_price(symbol):
     ticker = yf.Ticker(symbol)
     todays_data = ticker.history(period='1d')

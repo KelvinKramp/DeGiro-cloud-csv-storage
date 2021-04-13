@@ -1,5 +1,20 @@
-Different ways for creating a downloadable csv file
-1) With Dash
+Notes
+
+Creating a downloadable csv file with Dash
 pip install dash-extensions or detour
 https://stackoverflow.com/questions/61784556/download-csv-file-in-dash/61814287#61814287
-2) creating downloadable link directly
+
+Use config vars in Heroku to store your keys (password, loginname, etc.)
+https://devcenter.heroku.com/articles/config-vars
+
+When you save a config variable in the environment and you use special signs you have to comply with Bash rules:
+https://stackoverflow.com/questions/22417501/setting-heroku-config-vars-that-contain-the-special-character
+
+If you run your app on local with the "heroku local" command use .env file to store the keys
+https://devcenter.heroku.com/articles/getting-started-with-python#define-config-vars
+
+Heroku dyno filesystems are ephemeral, non-persistant and not shared between dynos.
+https://stackoverflow.com/questions/21465789/how-can-i-download-a-file-from-heroku-bash/48257411#:~:text=Log%20onto%20your%20heroku%20instance,o%20)
+
+Web Dyno's go to sleep. Workers and clocks dont.
+https://blog.heroku.com/app_sleeping_on_heroku
