@@ -6,16 +6,20 @@ import os
 import pathlib
 import firebase_connection as fc
 from apscheduler.schedulers.background import BackgroundScheduler
+import time
+
 
 # create class instance
 sched = BackgroundScheduler()
-name_csv_file = "/YOUR_WALLET_NAME.csv"
+name_csv_file = "/data_wallet.csv"
+
 
 def store_wallet():
     # define path of file
+    print("defining cwd")
     cwd = os.path.dirname(os.path.realpath(__file__))
     file_path_wallet = cwd + name_csv_file
-
+    print(file_path_wallet)
     # if file does not exist in path then create it
     file = pathlib.Path(file_path_wallet)
     if file.exists ():
@@ -58,3 +62,8 @@ def start_working():
     time_interval = int(os.environ.get('TIME-INTERVAL'))
     print("TIME-INTERVAL is set to: ", time_interval)
     sched.add_job(store_wallet, 'interval', minutes=time_interval, id='storing_job', next_run_time=dt.now())
+
+if __name__ == '__main__':
+    start_working()
+    while True:
+        time.sleep(30)

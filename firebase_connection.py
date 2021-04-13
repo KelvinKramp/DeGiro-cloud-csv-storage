@@ -1,6 +1,9 @@
 import pyrebase
 import os
 import json
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 # get configuration settings firebase
 config = os.environ.get('config')
