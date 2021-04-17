@@ -2,6 +2,8 @@ import degiroapi # uses requests as a dependency so dont forget to install reque
 import json
 import os
 import yfinance as yf
+from currency_converter import CurrencyConverter
+c = CurrencyConverter()
 
 # CREATE DEGIRO CLASS METHOD OBJECT
 degiro = degiroapi.DeGiro()
@@ -26,10 +28,16 @@ def portfolio():
             product_info = degiro.product_info(data['id'])
             portfolio_dict[product_info['symbol']] = (
             (product_info['name']), data['size'], (product_info['symbol']), (data['price']), (data['breakEvenPrice']))
-        if data['id'] == '15694498':
-            value_wallet = data['value']
 
-    return portfolio_dict, value_wallet
+    value_stock = []
+    for i in portfolio_dict:
+        value_stock.append(portfolio_dict[i][3])
+    value_stock = sum(value_stock) # sum wallet in dollar
+    value_stock = c.convert(value_stock, 'USD')
+
+    return portfolio_dict, value_stock
+
+
 
 # TRANSFORM PORTFOLIO INTO A TICKERS DICTIONARY
 def transform_portfolio_into_tickers_dict(portfolio):

@@ -37,8 +37,9 @@ def store_wallet():
     cashfund = pf.get_cashfund()
 
     # get total value of portofolio
-    portfolio_dict, value_portfolio = degiro_f.portfolio()
+    portfolio_dict, value_stock = degiro_f.portfolio()
 
+    value_portfolio = float(cashfund) + float(value_stock)
     # get stocksymbols from portfolio
     tickers = degiro_f.transform_portfolio_into_tickers_dict(portfolio_dict)
 
